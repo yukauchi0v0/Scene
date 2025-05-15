@@ -3,85 +3,95 @@ using System.Collections.Generic;
 using UnityEngine;
 using MidiJack;
 
-public class DayNightController : MonoBehaviour
+public class OptimizedDayNightController : MonoBehaviour
 {
-    [Header("Gradients")]
+    [Header("漸變控制")]
+    [SerializeField] private float transitionSpeed = 1.5f;
+    [SerializeField] private bool useSliderControl = true;
+    [SerializeField] private float dayDurationInSeconds = 60f;
+
+    [Header("滑桿偵測設定")]
+    [SerializeField] private int midiKnobIndex = 0;
+    [SerializeField] private float valueThreshold = 0.01f;
+
+    [Header("快捷鍵 MIDI Note（S/M/R）")]
+    [SerializeField] private int noteDay = 32;    // S 鍵
+    [SerializeField] private int noteDusk = 48;   // M 鍵
+    [SerializeField] private int noteNight = 64;  // R 鍵
+
+    [Header("光線與顏色")]
+    [SerializeField] private Light directionalLight;
+    [SerializeField] private Material skyboxMaterial;
     [SerializeField] private Gradient fogGradient;
     [SerializeField] private Gradient ambientGradient;
     [SerializeField] private Gradient directionLightGradient;
     [SerializeField] private Gradient skyboxTintGradient;
 
-    [Header("Enviromental Assets")]
-    [SerializeField] private Light directionalLight;
-    [SerializeField] private Material skyboxMaterial;
-
-    [Header("Variables")]
-    [SerializeField] private float dayDurationInSeconds = 60f;
-    [SerializeField] private float rotationSpeed = 1f;
-    [SerializeField] private bool useSliderControl = true;
-    [SerializeField] private float transitionSpeed = 1.5f; // 漸變速度
-
     private float currentTime = 0f;
     private float targetTime = 0f;
+    private float lastKnobValue = -1f;
 
     void Update()
     {
-        UpdateTime();
-        SmoothUpdate();
-        UpdateDayNightCycle();
-        RotateSkybox();
-    }
-
-    private void UpdateTime()
-    {
-        if (useSliderControl)
+        // 快捷鍵控制（優先於滑桿）
+        if (MidiMaster.GetKeyDown(noteDay))
         {
-            float raw = MidiMaster.GetKnob(0);
+            targetTime = 0.0f;  // 白天
+        }
+        else if (MidiMaster.GetKeyDown(noteDusk))
+        {
+            targetTime = 0.45f; // 黃昏
+        }
+        else if (MidiMaster.GetKeyDown(noteNight))
+        {
+            targetTime = 0.85f; // 夜晚
+        }
+        else if (useSliderControl)
+        {
+            float knobValue = MidiMaster.GetKnob(midiKnobIndex);
 
-            if (raw < 0.3f)
-                targetTime = 0f; // 白天
-            else if (raw < 0.5f)
-                targetTime = Mathf.InverseLerp(0.3f, 0.5f, raw) * 0.25f + 0.25f; // 黃昏 (0.25~0.5)
-            else if (raw < 0.7f)
-                targetTime = 0.5f; // 夜晚
-            else if (raw < 0.9f)
-                targetTime = Mathf.InverseLerp(0.7f, 0.9f, raw) * 0.25f + 0.75f; // 清晨 (0.75~1)
-            else
-                targetTime = 1f; // 白天
+            // 若滑桿變化幅度太小，就不更新
+            if (Mathf.Abs(knobValue - lastKnobValue) > valueThreshold)
+            {
+                targetTime = knobValue;  // 0~1 直接代表一天的時間
+                lastKnobValue = knobValue;
+            }
         }
         else
         {
+            // 自動時間流動模式
             targetTime += Time.deltaTime / dayDurationInSeconds;
             targetTime = Mathf.Repeat(targetTime, 1f);
         }
-    }
 
-    private void SmoothUpdate()
-    {
-        // 漸變過渡
+        // 平滑追趕 targetTime
         currentTime = Mathf.Lerp(currentTime, targetTime, Time.deltaTime * transitionSpeed);
+
+        UpdateLighting(currentTime);
+        RotateSkybox();
     }
 
-    private void UpdateDayNightCycle()
+    void UpdateLighting(float time)
     {
-        float sunPosition = Mathf.Repeat(currentTime + 0.25f, 1f);
+        float sunPosition = Mathf.Repeat(time + 0.25f, 1f);
         directionalLight.transform.rotation = Quaternion.Euler(sunPosition * 360f, 0f, 0f);
 
-        RenderSettings.fogColor = fogGradient.Evaluate(currentTime);
-        RenderSettings.ambientLight = ambientGradient.Evaluate(currentTime);
-        directionalLight.color = directionLightGradient.Evaluate(currentTime);
-        skyboxMaterial.SetColor("_Tint", skyboxTintGradient.Evaluate(currentTime));
+        RenderSettings.fogColor = fogGradient.Evaluate(time);
+        RenderSettings.ambientLight = ambientGradient.Evaluate(time);
+        directionalLight.color = directionLightGradient.Evaluate(time);
+        skyboxMaterial.SetColor("_Tint", skyboxTintGradient.Evaluate(time));
     }
 
-    private void RotateSkybox()
+    void RotateSkybox()
     {
         float currentRotation = skyboxMaterial.GetFloat("_Rotation");
-        float newRotation = currentRotation + rotationSpeed * Time.deltaTime;
+        float newRotation = currentRotation + 1f * Time.deltaTime;
         skyboxMaterial.SetFloat("_Rotation", newRotation);
     }
 
     private void OnApplicationQuit()
     {
+        // 重設 Skybox 顏色，避免關閉後保持夜晚
         skyboxMaterial.SetColor("_Tint", new Color(0.5f, 0.5f, 0.5f));
     }
 }
