@@ -54,7 +54,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FoamTex:
         m_Texture: {fileID: 2800000, guid: 14c55ed649175884784db6c178f4e654, type: 3}
-        m_Scale: {x: 800, y: 800}
+        m_Scale: {x: 3.4348, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightTex:
         m_Texture: {fileID: 2800000, guid: 51323bc64857e644fac7400eb7305b36, type: 3}
@@ -98,7 +98,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _NormalTexS:
         m_Texture: {fileID: 2800000, guid: 48e29dc2e9488474081bc20a42a364b9, type: 3}
-        m_Scale: {x: 800, y: 800}
+        m_Scale: {x: 6.8696, y: 2}
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
@@ -150,8 +150,8 @@ Material:
     - _foamScale: 10.54
     - _maxDist: 58.399998
     - _minDist: -180
-    - _shorelineFrequency: 0.5
-    - _shorelineHeight: 0.397
+    - _shorelineFrequency: 1
+    - _shorelineHeight: 0.25
     - _shorelineScale: 0.1
     - _shorelineSpeed: 4
     - _suimono_uvx: -3.2216

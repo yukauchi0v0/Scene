@@ -62,7 +62,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _FoamTex:
         m_Texture: {fileID: 2800000, guid: 14c55ed649175884784db6c178f4e654, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Scale: {x: 3.4348, y: 1}
         m_Offset: {x: 0, y: 0}
     - _HeightTex:
         m_Texture: {fileID: 2800000, guid: 51323bc64857e644fac7400eb7305b36, type: 3}
@@ -81,7 +81,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MaskTex:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: e18972d51c4910d499b05f09d48dc145, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTex:
@@ -89,7 +89,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexD:
-        m_Texture: {fileID: 2800000, guid: 5af41a104448f0b4b916b73fd5153291, type: 3}
+        m_Texture: {fileID: 2800000, guid: fdd39131993ce804da86a2e71c17a742, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexR:
@@ -97,8 +97,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _NormalTexS:
-        m_Texture: {fileID: 0}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 48e29dc2e9488474081bc20a42a364b9, type: 3}
+        m_Scale: {x: 6.8696, y: 2}
         m_Offset: {x: 0, y: 0}
     - _OceanBlendTex:
         m_Texture: {fileID: 2800000, guid: e18972d51c4910d499b05f09d48dc145, type: 3}
@@ -134,8 +134,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _WaveTex:
         m_Texture: {fileID: 2800000, guid: 9e0b039b60bba5c4ea73849d69af386a, type: 3}
-        m_Scale: {x: 0, y: 0}
-        m_Offset: {x: -0, y: -0}
+        m_Scale: {x: 1, y: 10}
+        m_Offset: {x: 0, y: 0}
     - _testTransTex:
         m_Texture: {fileID: 8400000, guid: 4cbb053dd78893346b31535310230dc4, type: 2}
         m_Scale: {x: 1, y: 1}
@@ -160,8 +160,8 @@ Material:
     - _FoamHeight: 0
     - _FoamSpread: 0.85
     - _HeightFoamAmount: 0
-    - _HeightFoamAmt: 0.955
-    - _HeightFoamHeight: 0.083
+    - _HeightFoamAmt: 0.85
+    - _HeightFoamHeight: 0.65
     - _HeightFoamSpread: 0.276
     - _MaskAmt: 8
     - _MasterScale: 2.25
@@ -183,7 +183,7 @@ Material:
     - _ShoreAmtDk: 1
     - _SpecScatterAmt: 0.5
     - _SpecScatterWidth: 0.1
-    - _Tess: 28
+    - _Tess: 8
     - _TideAmount: 0.3
     - _TideSpread: 0.513
     - _UnderFogDist: -0.054
@@ -195,12 +195,12 @@ Material:
     - _castshadowFade: 1
     - _castshadowStrength: 1
     - _foamScale: 10.54
-    - _maxDist: 116
+    - _maxDist: 58.399998
     - _minDist: -180
     - _reflecTerm: 0
-    - _shorelineFrequency: 0.5
-    - _shorelineHeight: 0.397
-    - _shorelineScale: 3.55
+    - _shorelineFrequency: 1
+    - _shorelineHeight: 0.25
+    - _shorelineScale: 0.1
     - _shorelineSpeed: 4
     - _suimono_DeepWaveHeight: 0.945
     - _suimono_DetailHeight: 1.63
@@ -238,15 +238,15 @@ Material:
     - _HighColor: {r: 0, g: 0, b: 0, a: 0.9}
     - _LowColor: {r: 0.34, g: 0.26, b: 0.18, a: 0.15}
     - _OverlayColor: {r: 0, g: 0, b: 0, a: 0}
-    - _ReflectionColor: {r: 1, g: 1, b: 1, a: 0.435}
-    - _SSSColor: {r: 0, g: 0.147, b: 0.007, a: 1}
+    - _ReflectionColor: {r: 1, g: 1, b: 1, a: 0.376}
+    - _SSSColor: {r: 0, g: 0.324, b: 0.015, a: 0.239}
     - _SpecColorH: {r: 1, g: 0.48, b: 0, a: 1}
     - _SpecColorL: {r: 1, g: 0, b: 0, a: 1}
-    - _SpecularColor: {r: 1, g: 1, b: 1, a: 1}
+    - _SpecularColor: {r: 0.063, g: 0.326, b: 0.375, a: 0.161}
     - _TideColor: {r: 0.24, g: 0.34, b: 0.32, a: 0}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
     - _UnderColor: {r: 1, g: 0.62, b: 0.17, a: 1}
-    - _UnderwaterColor: {r: 1, g: 1, b: 1, a: 1}
+    - _UnderwaterColor: {r: 0.034, g: 0.102, b: 0.154, a: 0.404}
     - _castshadowColor: {r: 0, g: 1, b: 0.79, a: 0.18}
     - _depthColor: {r: 0.16, g: 0.281, b: 0.382, a: 1}
     - _shallowColor: {r: 0.208, g: 0.373, b: 0.441, a: 0.784}

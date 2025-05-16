@@ -7,46 +7,76 @@ public class BGMusicVolumeController : MonoBehaviour
     public AudioSource bgmSource;
 
     [Header("MIDI 旋鈕 Index")]
-    public int knobIndex = 0; // 預設使用第 1 顆旋鈕
+    public int knobIndex = 0;
 
     [Header("音量倍率 (可選)")]
     [Range(0f, 2f)] public float volumeMultiplier = 1f;
 
+    [Header("更新頻率控制")]
+    public float updateInterval = 0.05f; // 每 0.05 秒更新一次
+
+    [Header("數值變動閾值")]
+    public float threshold = 0.01f; // 變動小於 1% 不更新
+
+    [Header("平滑過渡速度")]
+    public float lerpSpeed = 5f; // 數值越大，越快跟上旋鈕變動
+
+    private float targetVolume = 0f;
+    private float currentVolume = 0f;
+    private float updateTimer = 0f;
+
     void Start()
-{
-    // 如果沒有手動指定音源，就自動從場景中找一個 Camera 上的 AudioSource
-    if (bgmSource == null)
     {
-        Camera cam = GameObject.FindObjectOfType<Camera>();
-        if (cam != null)
+        if (bgmSource == null)
         {
-            bgmSource = cam.GetComponent<AudioSource>();
-            if (bgmSource != null)
-                Debug.Log("找到了 AudioSource，並已連接！");
+            Camera cam = GameObject.FindObjectOfType<Camera>();
+            if (cam != null)
+            {
+                bgmSource = cam.GetComponent<AudioSource>();
+                if (bgmSource != null)
+                    Debug.Log("找到了 AudioSource，並已連接！");
+                else
+                    Debug.LogWarning("找到了 Camera，但沒有 AudioSource！");
+            }
             else
-                Debug.LogWarning("找到了 Camera，但沒有 AudioSource！");
+            {
+                Debug.LogWarning("場景中找不到任何 Camera！");
+            }
         }
-        else
+
+        if (bgmSource != null)
         {
-            Debug.LogWarning("場景中找不到任何 Camera！");
+            // 一開始就讀取旋鈕數值並同步
+            float initKnobValue = MidiMaster.GetKnob(knobIndex);
+            targetVolume = Mathf.Clamp01(initKnobValue * volumeMultiplier);
+            currentVolume = targetVolume;
+            bgmSource.volume = currentVolume;
+
+            Debug.Log($"初始化音量：{currentVolume}");
         }
     }
-
-    if (bgmSource != null)
-    {
-        float initKnobValue = MidiMaster.GetKnob(knobIndex);
-        float initVolume = Mathf.Clamp01(initKnobValue * volumeMultiplier);
-        bgmSource.volume = initVolume;
-    }
-}
-
 
     void Update()
     {
         if (bgmSource == null) return;
 
-        float knobValue = MidiMaster.GetKnob(knobIndex);
-        float volume = Mathf.Clamp01(knobValue * volumeMultiplier);
-        bgmSource.volume = volume;
+        updateTimer += Time.deltaTime;
+
+        if (updateTimer >= updateInterval)
+        {
+            updateTimer = 0f;
+
+            float knobValue = MidiMaster.GetKnob(knobIndex);
+            float newTargetVolume = Mathf.Clamp01(knobValue * volumeMultiplier);
+
+            if (Mathf.Abs(newTargetVolume - targetVolume) > threshold)
+            {
+                targetVolume = newTargetVolume;
+            }
+        }
+
+        // 平滑過渡音量
+        currentVolume = Mathf.Lerp(currentVolume, targetVolume, lerpSpeed * Time.deltaTime);
+        bgmSource.volume = currentVolume;
     }
 }
