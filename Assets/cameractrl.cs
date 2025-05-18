@@ -160,46 +160,54 @@ public class cameractrl : MonoBehaviour
     }
 
     IEnumerator FadeOutIntroElements()
+{
+    float t = 0f;
+    Color fadeColor = fadePanel != null ? fadePanel.color : Color.black;
+    Color textColor = introText != null ? introText.color : Color.white;
+    Color logoColor = Color.white;
+    UnityEngine.UI.Image logoImage = null;
+
+    if (introLogo != null)
     {
-        float t = 0f;
-        Color fadeColor = fadePanel.color;
-        Color textColor = introText.color;
-
-        Renderer logoRenderer = introLogo != null ? introLogo.GetComponent<Renderer>() : null;
-        Material logoMat = logoRenderer != null ? logoRenderer.material : null;
-        Color logoColor = logoMat != null && logoMat.HasProperty("_Color") ? logoMat.color : Color.white;
-
-        while (t < fadeDuration)
+        logoImage = introLogo.GetComponent<UnityEngine.UI.Image>();
+        if (logoImage != null)
         {
-            t += Time.deltaTime;
-            float alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
+            logoColor = logoImage.color;
+        }
+    }
 
-            if (fadePanel != null)
-            {
-                fadeColor.a = alpha;
-                fadePanel.color = fadeColor;
-            }
+    while (t < fadeDuration)
+    {
+        t += Time.deltaTime;
+        float alpha = Mathf.Lerp(1f, 0f, t / fadeDuration);
 
-            if (introText != null)
-            {
-                textColor.a = alpha;
-                introText.color = textColor;
-            }
-
-            if (logoMat != null)
-            {
-                Color c = logoColor;
-                c.a = alpha;
-                logoMat.color = c;
-            }
-
-            yield return null;
+        if (fadePanel != null)
+        {
+            fadeColor.a = alpha;
+            fadePanel.color = fadeColor;
         }
 
-        if (fadePanel != null) fadePanel.gameObject.SetActive(false);
-        if (introText != null) introText.gameObject.SetActive(false);
-        if (introLogo != null) introLogo.SetActive(false);
+        if (introText != null)
+        {
+            textColor.a = alpha;
+            introText.color = textColor;
+        }
+
+        if (logoImage != null)
+        {
+            Color c = logoColor;
+            c.a = alpha;
+            logoImage.color = c;
+        }
+
+        yield return null;
     }
+
+    if (fadePanel != null) fadePanel.gameObject.SetActive(false);
+    if (introText != null) introText.gameObject.SetActive(false);
+    if (introLogo != null) introLogo.SetActive(false);
+}
+
 
     IEnumerator FadeInCharacter()
     {

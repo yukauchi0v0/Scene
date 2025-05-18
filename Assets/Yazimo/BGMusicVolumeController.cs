@@ -12,18 +12,22 @@ public class BGMusicVolumeController : MonoBehaviour
     [Header("音量倍率 (可選)")]
     [Range(0f, 2f)] public float volumeMultiplier = 1f;
 
+    [Header("預設啟動音量")]
+    [Range(0f, 1f)] public float defaultStartVolume = 0.5f;
+
     [Header("更新頻率控制")]
-    public float updateInterval = 0.05f; // 每 0.05 秒更新一次
+    public float updateInterval = 0.05f;
 
     [Header("數值變動閾值")]
-    public float threshold = 0.01f; // 變動小於 1% 不更新
+    public float threshold = 0.01f;
 
     [Header("平滑過渡速度")]
-    public float lerpSpeed = 5f; // 數值越大，越快跟上旋鈕變動
+    public float lerpSpeed = 5f;
 
     private float targetVolume = 0f;
     private float currentVolume = 0f;
     private float updateTimer = 0f;
+    private bool midiStarted = false;
 
     void Start()
     {
@@ -46,13 +50,10 @@ public class BGMusicVolumeController : MonoBehaviour
 
         if (bgmSource != null)
         {
-            // 一開始就讀取旋鈕數值並同步
-            float initKnobValue = MidiMaster.GetKnob(knobIndex);
-            targetVolume = Mathf.Clamp01(initKnobValue * volumeMultiplier);
-            currentVolume = targetVolume;
-            bgmSource.volume = currentVolume;
-
-            Debug.Log($"初始化音量：{currentVolume}");
+            targetVolume = defaultStartVolume;
+            currentVolume = defaultStartVolume;
+            bgmSource.volume = defaultStartVolume;
+            Debug.Log($"初始化音量：{defaultStartVolume}");
         }
     }
 
@@ -67,15 +68,17 @@ public class BGMusicVolumeController : MonoBehaviour
             updateTimer = 0f;
 
             float knobValue = MidiMaster.GetKnob(knobIndex);
-            float newTargetVolume = Mathf.Clamp01(knobValue * volumeMultiplier);
+            float newVolume = Mathf.Clamp01(knobValue * volumeMultiplier);
 
-            if (Mathf.Abs(newTargetVolume - targetVolume) > threshold)
+            // 如果 MIDI 開始送值，而且變動夠大，就改變 targetVolume
+            if (newVolume > 0.001f && Mathf.Abs(newVolume - targetVolume) > threshold)
             {
-                targetVolume = newTargetVolume;
+                targetVolume = newVolume;
+                midiStarted = true;
             }
         }
 
-        // 平滑過渡音量
+        // 漸變音量
         currentVolume = Mathf.Lerp(currentVolume, targetVolume, lerpSpeed * Time.deltaTime);
         bgmSource.volume = currentVolume;
     }
