@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.03.00">
+	<object class="ParameterPreset" id="{3c305c53-23a0-4997-aabd-76ec54a9792b}">
+		<property name="name">
+			<value>LightningTrigger</value>
+		</property>
+		<relationship name="folder">
+			<destination>{a418e0de-c7d0-05c9-280a-b529dc02e12e}</destination>
+		</relationship>
+		<relationship name="parameter">
+			<destination>{80a60d2a-caed-426c-b0e7-b0c5b51d9f21}</destination>
+		</relationship>
+	</object>
+	<object class="GameParameter" id="{80a60d2a-caed-426c-b0e7-b0c5b51d9f21}">
+		<property name="initialValue">
+			<value>0</value>
+		</property>
+		<relationship name="automators">
+			<destination>{31bb96d4-0cf2-4a4a-86cb-1af0ba68a5c1}</destination>
+		</relationship>
+	</object>
+	<object class="Automator" id="{31bb96d4-0cf2-4a4a-86cb-1af0ba68a5c1}">
+		<property name="nameOfPropertyBeingAutomated">
+			<value>cursorPosition</value>
+		</property>
+		<relationship name="automationCurves">
+			<destination>{5fd28272-e082-495a-a895-889b71da5375}</destination>
+		</relationship>
+	</object>
+	<object class="AutomationCurve" id="{5fd28272-e082-495a-a895-889b71da5375}">
+		<relationship name="parameter">
+			<destination>{e6e977c8-1ea2-4415-b853-7ea2ac847dd7}</destination>
+		</relationship>
+	</object>
+</objects>
