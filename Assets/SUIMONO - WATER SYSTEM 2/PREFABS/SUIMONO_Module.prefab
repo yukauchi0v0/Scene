@@ -5543,7 +5543,7 @@ MonoBehaviour:
   enableAdvancedDistort: 1
   enableTenkoku: 0
   enableAutoAdvance: 1
-  showPerformance: 0
+  showPerformance: 1
   showGeneral: 1
   underwaterColor: {r: 0.58, g: 0.61, b: 0.61, a: 0}
   enableTransition: 1
@@ -5661,7 +5661,7 @@ MonoBehaviour:
   materialSurface: {fileID: 2100000, guid: 434999af31d77af4aacb107170c00ba3, type: 2}
   materialSurfaceScale: {fileID: 2100000, guid: df4f3b7f86753fe4dbd3dc92a60ce25e, type: 2}
   materialSurfaceShadow: {fileID: 2100000, guid: ba680adc45d88d74584bcd8dfbde30e1, type: 2}
-  surfaceObject: {fileID: 100008, guid: be5dd6f307215d24d93e0aa63e392a16, type: 3}
+  surfaceObject: {fileID: 6873994171610052527, guid: 21a7480d4bcd0e1409573800c26826aa, type: 3}
   moduleObject: {fileID: 4439848727087715999}
   causticObject: {fileID: 4439848725581646239}
   causticObjectLight: {fileID: 4439848725764639144}

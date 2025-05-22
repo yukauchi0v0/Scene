@@ -496,18 +496,18 @@ MonoBehaviour:
   hFoamHeight: 0.65
   hFoamSpread: 0.276
   heightFoamAmt: 0.85
-  showUnderwater: 0
+  showUnderwater: 1
   underwaterColor: {r: 0.034, g: 0.102, b: 0.154, a: 0.404}
   underLightFactor: 1
-  underRefractionAmount: 0.005
+  underRefractionAmount: 0.02
   underRefractionScale: 0.5
-  underRefractionSpeed: 1
-  underwaterFogDist: 34
-  underwaterFogSpread: 0
+  underRefractionSpeed: 0.8
+  underwaterFogDist: 54
+  underwaterFogSpread: 6.5
   enableUnderwater: 1
   enableUnderDebris: 1
-  underBlurAmount: 1
-  underDarkRange: 50
+  underBlurAmount: 0.189
+  underDarkRange: 155
   setScale: 1
   currentAngles: {x: 0, y: 0, z: 0}
   currentPosition: {x: 0, y: 0, z: 0}
