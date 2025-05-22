@@ -57,7 +57,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Dialogue_CN.bank
   Name: Dialogue_CN
   StudioPath: bank:/Dialogue_CN
-  lastModified: 638834965230377344
+  lastModified: 638832686485127475
   FileSizes:
   - Name: Desktop
     Value: 52416
@@ -280,7 +280,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Dialogue_EN.bank
   Name: Dialogue_EN
   StudioPath: bank:/Dialogue_EN
-  lastModified: 638834965230387343
+  lastModified: 638832686485137416
   FileSizes:
   - Name: Desktop
     Value: 61120
@@ -401,7 +401,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Vehicles.bank
   Name: Vehicles
   StudioPath: bank:/Vehicles
-  lastModified: 638834965232037595
+  lastModified: 638832686487496374
   FileSizes:
   - Name: Desktop
     Value: 222624
@@ -498,7 +498,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 638834965230417359
+  lastModified: 638832686485167422
   FileSizes:
   - Name: Desktop
     Value: 15938
@@ -1373,7 +1373,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 638834965230417359
+  lastModified: 638832686485167422
   FileSizes:
   - Name: Desktop
     Value: 4026
@@ -2040,7 +2040,7 @@ MonoBehaviour:
   StringsBanks:
   - {fileID: -3781453697727661768}
   cacheVersion: 131847
-  cacheTime: 638834965232047609
+  cacheTime: 638832686487496374
   SerializableEventsDict:
   - key: snapshot:/Slow-Motion
     index: 0
@@ -2225,7 +2225,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/VO.bank
   Name: VO
   StudioPath: bank:/VO
-  lastModified: 638834965232047609
+  lastModified: 638832686487470304
   FileSizes:
   - Name: Desktop
     Value: 38592
@@ -3138,7 +3138,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Dialogue_JP.bank
   Name: Dialogue_JP
   StudioPath: bank:/Dialogue_JP
-  lastModified: 638834965230407358
+  lastModified: 638832686485147413
   FileSizes:
   - Name: Desktop
     Value: 66560
@@ -4281,7 +4281,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/Music.bank
   Name: Music
   StudioPath: bank:/Music
-  lastModified: 638834965231057402
+  lastModified: 638832686486146586
   FileSizes:
   - Name: Desktop
     Value: 10454752
@@ -4329,7 +4329,7 @@ MonoBehaviour:
   Path: Assets/Yazimo/examples/Build/Desktop/SFX.bank
   Name: SFX
   StudioPath: bank:/SFX
-  lastModified: 638834965232007712
+  lastModified: 638832686487450306
   FileSizes:
   - Name: Desktop
     Value: 21436256
