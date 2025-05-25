@@ -72,15 +72,18 @@ public class OptimizedDayNightController : MonoBehaviour
     }
 
     void UpdateLighting(float time)
-    {
-        float sunPosition = Mathf.Repeat(time + 0.25f, 1f);
-        directionalLight.transform.rotation = Quaternion.Euler(sunPosition * 360f, 0f, 0f);
+{
+    float sunPosition = Mathf.Repeat(time + 0.25f, 1f);
+    directionalLight.transform.rotation = Quaternion.Euler(sunPosition * 360f, 0f, 0f);
 
-        RenderSettings.fogColor = fogGradient.Evaluate(time);
-        RenderSettings.ambientLight = ambientGradient.Evaluate(time);
-        directionalLight.color = directionLightGradient.Evaluate(time);
-        skyboxMaterial.SetColor("_Tint", skyboxTintGradient.Evaluate(time));
-    }
+    RenderSettings.fogColor = fogGradient.Evaluate(time);
+    RenderSettings.ambientLight = ambientGradient.Evaluate(time);
+    directionalLight.color = directionLightGradient.Evaluate(time);
+
+    // ❌ 不要再動 Skybox 的顏色
+}
+
+
 
     void RotateSkybox()
     {
@@ -91,7 +94,7 @@ public class OptimizedDayNightController : MonoBehaviour
 
     private void OnApplicationQuit()
     {
-        // 重設 Skybox 顏色，避免關閉後保持夜晚
+        // 關閉遊戲時還原 Skybox 顏色
         skyboxMaterial.SetColor("_Tint", new Color(0.5f, 0.5f, 0.5f));
     }
 }

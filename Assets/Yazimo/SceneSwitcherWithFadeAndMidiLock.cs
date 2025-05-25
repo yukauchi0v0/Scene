@@ -5,23 +5,31 @@ using System.Collections;
 
 public class SceneSwitcherStableOptimized : MonoBehaviour
 {
-    public Transform cameraTarget;
+    public Transform characterTarget;
     public Transform skyPosition;
     public Transform cityPosition;
     public Transform seaPosition;
 
-    public Image fadeImage; // 全螢幕黑色 UI Image
+    public Image fadeImage;
     public int knobIndex = 0;
     public float transitionDuration = 2f;
-    public float triggerThreshold = 0.15f;
 
     private bool isTransitioning = false;
-    private float lastValue = 0.5f;
 
     private enum Region { Sea, City, Sky }
     private Region currentRegion = Region.City;
 
-    
+    [Header("區間判斷範圍")]
+    public float seaMax = 0.3f;
+    public float cityMin = 0.35f;
+    public float cityMax = 0.65f;
+    public float skyMin = 0.7f;
+
+    [Header("MIDI 按鍵通道編號")]
+    public int seaButtonIndex = 0;
+    public int cityButtonIndex = 1;
+    public int skyButtonIndex = 2;
+
     void Start()
     {
         if (fadeImage != null)
@@ -32,26 +40,44 @@ public class SceneSwitcherStableOptimized : MonoBehaviour
     {
         if (isTransitioning) return;
 
+        // ✅ 按鈕觸發優先判斷
+        if (MidiMaster.GetKeyDown(seaButtonIndex))
+        {
+            TrySwitchRegion(Region.Sea);
+            return;
+        }
+        else if (MidiMaster.GetKeyDown(cityButtonIndex))
+        {
+            TrySwitchRegion(Region.City);
+            return;
+        }
+        else if (MidiMaster.GetKeyDown(skyButtonIndex))
+        {
+            TrySwitchRegion(Region.Sky);
+            return;
+        }
+
+        // ✅ 滑桿判斷（原本邏輯保留）
         float knobValue = MidiMaster.GetKnob(knobIndex, 0.5f);
-
-        if (Mathf.Abs(knobValue - lastValue) < 0.01f) return;
-
         Region targetRegion = currentRegion;
 
-        if (knobValue <= triggerThreshold)
+        if (knobValue <= seaMax)
             targetRegion = Region.Sea;
-        else if (knobValue >= 1f - triggerThreshold)
+        else if (knobValue >= skyMin)
             targetRegion = Region.Sky;
-        else
+        else if (knobValue >= cityMin && knobValue <= cityMax)
             targetRegion = Region.City;
 
+        TrySwitchRegion(targetRegion);
+    }
+
+    void TrySwitchRegion(Region targetRegion)
+    {
         if (targetRegion != currentRegion)
         {
             currentRegion = targetRegion;
             StartCoroutine(SwitchTo(GetTargetForRegion(currentRegion)));
         }
-
-        lastValue = knobValue;
     }
 
     Transform GetTargetForRegion(Region region)
@@ -68,7 +94,6 @@ public class SceneSwitcherStableOptimized : MonoBehaviour
     {
         isTransitioning = true;
 
-        // 🎬 淡出黑幕（確保完全黑）
         if (fadeImage != null)
         {
             float t = 0f;
@@ -78,32 +103,25 @@ public class SceneSwitcherStableOptimized : MonoBehaviour
                 fadeImage.color = new Color(0, 0, 0, Mathf.Clamp01(t));
                 yield return null;
             }
-            fadeImage.color = new Color(0, 0, 0, 1f); // 強制補齊
+            fadeImage.color = new Color(0, 0, 0, 1f);
         }
 
-        // ✨ 可選：黑完後稍微停一下（讓觀眾感覺更自然）
         yield return new WaitForSeconds(0.05f);
 
-        // 📸 相機移動
-        Vector3 startPos = cameraTarget.position;
-        Quaternion startRot = cameraTarget.rotation;
+        Vector3 startPos = characterTarget.position;
         Vector3 endPos = target.position;
-        Quaternion endRot = target.rotation;
 
         float moveT = 0f;
         while (moveT < transitionDuration)
         {
             moveT += Time.deltaTime;
             float lerpT = moveT / transitionDuration;
-            cameraTarget.position = Vector3.Lerp(startPos, endPos, lerpT);
-            cameraTarget.rotation = Quaternion.Slerp(startRot, endRot, lerpT);
+            characterTarget.position = Vector3.Lerp(startPos, endPos, lerpT);
             yield return null;
         }
 
-        cameraTarget.position = endPos;
-        cameraTarget.rotation = endRot;
+        characterTarget.position = endPos;
 
-        // 🎬 淡入還原畫面
         if (fadeImage != null)
         {
             float t = 1f;
